@@ -3,18 +3,20 @@ import axios from 'axios';
 import { useDropzone } from 'react-dropzone'
 import './App.css';
 
+const backendBaseUrl = process.env.REACT_APP_BACKEND_URL_PROD;
 
 const UserProfiles = () => {
   const [userProfiles, setUserProfiles] = useState([]);
 
   const fetchUserProfiles = () => {
-    axios.get("http://127.0.0.1:8080/api/v1/user-profile").then(res => {
+    axios.get(`${backendBaseUrl}/api/v1/user-profile`).then(res => {
       console.log(res);
       setUserProfiles(res.data);
     });
   }
 
   useEffect(() => {
+    console.log(`----------backendBaseUrl: ${backendBaseUrl}`)
     fetchUserProfiles();
   }, [])
 
@@ -23,7 +25,7 @@ const UserProfiles = () => {
       <div key={index}>
         {
           userProfie.userProfileId ?
-            <img src={`http://127.0.0.1:8080/api/v1/user-profile/${userProfie.userProfileId}/image/download`} />
+            <img src={`${backendBaseUrl}/api/v1/user-profile/${userProfie.userProfileId}/image/download`} />
             : null
         }
         <br />
@@ -50,7 +52,7 @@ function Dropzone({ userProfileId }) {
     formData.append("file", files);
 
     axios.post(
-      `http://127.0.0.1:8080/api/v1/user-profile/${userProfileId}/image/upload`,
+      `${backendBaseUrl}/api/v1/user-profile/${userProfileId}/image/upload`,
       formData,
       {
         headers: {

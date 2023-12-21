@@ -14,7 +14,7 @@
 	<name>spring-boot-amazon-s3-react</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 
 
 		<frontend-src-dir>${project.basedir}/src/main/frontend-react-project</frontend-src-dir>
@@ -52,6 +52,7 @@
 			<version>1.15.0</version>
 		</dependency>
 
+
 	</dependencies>
 
 	<build>
@@ -59,6 +60,16 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>appengine-maven-plugin</artifactId>
+				<version>2.4.4</version>
+				<configuration>
+					<version>1</version>
+					<projectId>GCLOUD_CONFIG</projectId>
+				</configuration>
 			</plugin>
 
 
