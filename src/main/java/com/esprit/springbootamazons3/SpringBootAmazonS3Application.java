@@ -22,7 +22,7 @@ public class SpringBootAmazonS3Application {
 			S3Buckets s3Buckets
 	) {
 		return args -> {
-			// testBucketUploadAndDownload(s3Service, s3Buckets);
+			testBucketUploadAndDownload(s3Service, s3Buckets);
 		};
 	}
 
