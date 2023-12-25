@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useDropzone } from 'react-dropzone'
 import './App.css';
 
-const backendBaseUrl = process.env.REACT_APP_BACKEND_URL_PROD;
+const backendBaseUrl = process.env.REACT_APP_BACKEND_URL_DEV;
 
 const UserProfiles = () => {
   const [userProfiles, setUserProfiles] = useState([]);
