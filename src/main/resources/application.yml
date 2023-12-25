@@ -1,0 +1,16 @@
+server:
+  port: 8082
+
+spring:
+  #profiles:
+  #    active: prod
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+aws:
+  region: eu-west-3
+  s3:
+    buckets:
+      customer: 228-connect-market

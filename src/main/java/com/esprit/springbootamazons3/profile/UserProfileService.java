@@ -1,7 +1,5 @@
 package com.esprit.springbootamazons3.profile;
 
-import com.esprit.springbootamazons3.aws.bucket.BucketName;
-import com.esprit.springbootamazons3.aws.filestore.FileStore;
 import com.esprit.springbootamazons3.s3.S3Buckets;
 import com.esprit.springbootamazons3.s3.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +14,13 @@ import static org.apache.http.entity.ContentType.*;
 @Service
 public class UserProfileService {
     private final UserProfileDataAccessService userProfileDataAccessService;
-    private final FileStore fileStore;
 
     private S3Service s3Service;
     private S3Buckets s3Buckets;
 
     @Autowired
-    public UserProfileService(UserProfileDataAccessService userProfileDataAccessService, FileStore fileStore, S3Service s3Service, S3Buckets s3Buckets) {
+    public UserProfileService(UserProfileDataAccessService userProfileDataAccessService, S3Service s3Service, S3Buckets s3Buckets) {
         this.userProfileDataAccessService = userProfileDataAccessService;
-        this.fileStore = fileStore;
         this.s3Service = s3Service;
         this.s3Buckets = s3Buckets;
     }
@@ -48,7 +44,7 @@ public class UserProfileService {
 
         // 5. Store the image in s3
 
-        String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), user.getUserProfileId());
+
         String filename = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID());
 
         /* v2 */
@@ -56,8 +52,6 @@ public class UserProfileService {
         String key = "profile-image/%s/%s".formatted(user.getUserProfileId(), profileImageId);
         /* end v2 */
         try {
-            // fileStore.save(path,filename,Optional.of(metadata),file.getInputStream());
-            // user.setUserProfileImageLink(filename);
             s3Service.putObject(
                     s3Buckets.getCustomer(),
                     key,
@@ -72,22 +66,13 @@ public class UserProfileService {
     byte[] downloadUserProfileImage(UUID userProfileId) {
         UserProfile user = getUserProfileOrThrow(userProfileId);
 
-        String path = String.format("%s/%s",
-                BucketName.PROFILE_IMAGE.getBucketName(),
-                user.getUserProfileId());
-
         /* v2 */
-        // String key = "profile-image/%s/%s".formatted(user.getUserProfileId(), profileImageId);
         String key = user.getUserProfileImageLink().get();
+
         byte[] profileImage = s3Service.getObject(
                 s3Buckets.getCustomer(),
                 key
         );
-
-        /*return user.getUserProfileImageLink()
-                .map(key -> fileStore.download(path, key))
-                .orElse(new byte[0]);
-        */
 
         return profileImage;
     }
