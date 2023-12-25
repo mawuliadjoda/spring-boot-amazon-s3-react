@@ -11,6 +11,10 @@
 	<groupId>com.esprit</groupId>
 	<artifactId>spring-boot-amazon-s3-react</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+
+	<!-- config to package .war file  -->
+	<packaging>war</packaging>
+	<!-- end config to package .war file  -->
 	<name>spring-boot-amazon-s3-react</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -52,6 +56,13 @@
 			<version>1.15.0</version>
 		</dependency>
 
+		<!-- config to package .war file  -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- end config to package .war file  -->
 
 	</dependencies>
 
