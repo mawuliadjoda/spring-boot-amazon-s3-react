@@ -1,17 +1,16 @@
+FROM ubuntu:latest AS build
 
-#
-# Build stage
-#
-FROM openjdk:17
+RUN apt-get update
+RUN apt-get install openjdk-17-jdk -y
 COPY . .
-RUN chmod 777
-RUN mvn clean package -DskipTests
 
-#
-# Package stage
-#
+RUN chmod +x mvnw
+RUN chmod 777
+RUN ./mvnw package
+
+FROM openjdk:17-jdk-slim
+
+EXPOSE 8080
 
 COPY --from=build /target/*.jar app.jar
-# ENV PORT=8080
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
