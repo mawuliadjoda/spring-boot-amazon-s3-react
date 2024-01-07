@@ -4,6 +4,7 @@
 #
 FROM openjdk:17
 COPY . .
+RUN chmod 777
 RUN mvn clean package -DskipTests
 
 #
