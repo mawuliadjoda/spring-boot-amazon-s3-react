@@ -1,7 +1,15 @@
 FROM openjdk:17
-WORKDIR /app
+WORKDIR /var/www/app
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
+
 RUN chmod +x mvnw
-RUN ./mvnw package
-COPY target/spring-boot-amazon-s3-react-0.0.1-SNAPSHOT.jar .
+RUN ./mvnw package -Dmaven.test.skip
+
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","spring-boot-amazon-s3-react-0.0.1-SNAPSHOT.jar"]
+
+COPY var/www/app/target/*.jar app.jar
+
+CMD ["java", "-jar", "app.jar"]
