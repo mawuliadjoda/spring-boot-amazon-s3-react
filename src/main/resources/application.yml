@@ -2,6 +2,19 @@
 #  port: 8082
 
 spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+    #        default_schema: crud
+
+  datasource:
+    url: jdbc:postgresql://dpg-cmd5h3ud3nmc73dgv2tg-a.frankfurt-postgres.render.com:5432/snapgramdb
+    username: root
+    password: ddFKkNUpjVEFHrmtr4t2oNlough2KlKF
+
   profiles:
     active: prod
   servlet:
