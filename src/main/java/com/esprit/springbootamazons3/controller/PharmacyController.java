@@ -6,6 +6,7 @@ import com.esprit.springbootamazons3.exception.MyCrudException;
 import com.esprit.springbootamazons3.exception.MyCrudExceptionEnum;
 import com.esprit.springbootamazons3.repository.PharmacyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public class PharmacyController {
 
     private  PharmacyRepository pharmacyRepository;
 
+    @Autowired
     public PharmacyController(PharmacyRepository pharmacyRepository) {
         this.pharmacyRepository = pharmacyRepository;
     }
