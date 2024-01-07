@@ -5,7 +5,7 @@ RUN apt-get install openjdk-17-jdk -y
 COPY . .
 
 RUN chmod +x mvnw
-RUN chmod 777
+
 RUN ./mvnw package
 
 FROM openjdk:17-jdk-slim
