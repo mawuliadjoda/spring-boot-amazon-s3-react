@@ -1,15 +1,16 @@
+
+#
+# Build stage
+#
 FROM openjdk:17
-WORKDIR /var/www/app
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
-COPY src src
+COPY . .
+RUN mvn clean package -DskipTests
 
-RUN chmod +x mvnw
-RUN ./mvnw package -Dmaven.test.skip
+#
+# Package stage
+#
 
+COPY --from=build /target/*.jar app.jar
+# ENV PORT=8080
 EXPOSE 8080
-
-COPY var/www/app/target/*.jar app.jar
-
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
