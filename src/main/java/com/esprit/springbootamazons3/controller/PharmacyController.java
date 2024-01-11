@@ -2,15 +2,18 @@ package com.esprit.springbootamazons3.controller;
 
 
 import com.esprit.springbootamazons3.entity.Pharmacy;
+import com.esprit.springbootamazons3.record.PharmacyRecord;
 import com.esprit.springbootamazons3.exception.MyCrudException;
 import com.esprit.springbootamazons3.exception.MyCrudExceptionEnum;
 import com.esprit.springbootamazons3.repository.PharmacyRepository;
+import com.esprit.springbootamazons3.repository.PharmacyRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -20,15 +23,34 @@ import java.util.List;
 public class PharmacyController {
 
     private  PharmacyRepository pharmacyRepository;
+    private PharmacyRepositoryImpl pharmacyRepositoryImpl;
 
     @Autowired
-    public PharmacyController(PharmacyRepository pharmacyRepository) {
+    public PharmacyController(PharmacyRepository pharmacyRepository, PharmacyRepositoryImpl pharmacyRepositoryImpl) {
         this.pharmacyRepository = pharmacyRepository;
+        this.pharmacyRepositoryImpl = pharmacyRepositoryImpl;
     }
 
     @GetMapping()
     public ResponseEntity<List<Pharmacy>> getAll() {
-        return new ResponseEntity<>(pharmacyRepository.findAll(), HttpStatus.OK);
+        pharmacyRepositoryImpl.createView();
+        Collection<Pharmacy> allPharmacies = pharmacyRepository.findAllPharmacies();
+
+        List<Object> objects = pharmacyRepository.selectObjects();
+        System.out.println(objects);
+        return new ResponseEntity<>(allPharmacies.stream().toList(), HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/{id}/{name}")
+    void update(@PathVariable("id") Long id, @PathVariable("name") String name) {
+        pharmacyRepository.updatePharmacy(id, name);
+    }
+
+    @PostMapping(value = "/{id}/{name}/{address}")
+    void create(@PathVariable("id") Long id, @PathVariable("name") String name, @PathVariable("address") String address) {
+
+        pharmacyRepositoryImpl.createNew(new PharmacyRecord(id,name, address));
+
     }
 
     @PostMapping()
