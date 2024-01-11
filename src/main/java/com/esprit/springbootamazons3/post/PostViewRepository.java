@@ -1,4 +1,4 @@
-package com.esprit.springbootamazons3.repository;
+package com.esprit.springbootamazons3.post;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

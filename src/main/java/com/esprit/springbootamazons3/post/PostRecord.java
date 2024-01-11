@@ -1,7 +1,7 @@
-package com.esprit.springbootamazons3.record;
-import org.springframework.data.annotation.Id;
+package com.esprit.springbootamazons3.post;
+
 public record PostRecord(
-        @Id
+
         String postId,
         String caption,
         String imageId,

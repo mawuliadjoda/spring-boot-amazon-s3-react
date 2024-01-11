@@ -1,12 +1,8 @@
-package com.esprit.springbootamazons3.controller;
+package com.esprit.springbootamazons3.pharmacy;
 
 
-import com.esprit.springbootamazons3.entity.Pharmacy;
-import com.esprit.springbootamazons3.record.PharmacyRecord;
 import com.esprit.springbootamazons3.exception.MyCrudException;
 import com.esprit.springbootamazons3.exception.MyCrudExceptionEnum;
-import com.esprit.springbootamazons3.repository.PharmacyRepository;
-import com.esprit.springbootamazons3.repository.PharmacyRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

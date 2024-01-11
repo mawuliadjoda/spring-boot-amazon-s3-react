@@ -1,6 +1,5 @@
-package com.esprit.springbootamazons3.repository;
+package com.esprit.springbootamazons3.post;
 
-import com.esprit.springbootamazons3.entity.Post;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,7 +1,7 @@
-package com.esprit.springbootamazons3.controller;
+package com.esprit.springbootamazons3.post;
 
 
-import com.esprit.springbootamazons3.repository.PostViewRepository;
+import com.esprit.springbootamazons3.post.PostViewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

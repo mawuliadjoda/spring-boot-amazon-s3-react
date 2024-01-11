@@ -1,7 +1,7 @@
-package com.esprit.springbootamazons3.repository;
+package com.esprit.springbootamazons3.pharmacy;
 
 
-import com.esprit.springbootamazons3.entity.Pharmacy;
+import com.esprit.springbootamazons3.pharmacy.Pharmacy;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

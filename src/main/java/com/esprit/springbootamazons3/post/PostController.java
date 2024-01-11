@@ -1,19 +1,4 @@
-package com.esprit.springbootamazons3.controller;
-
-import com.esprit.springbootamazons3.exception.PostNotFoundException;
-import com.esprit.springbootamazons3.record.PostRecord;
-import com.esprit.springbootamazons3.repository.PostRecordRepository;
-
-import com.esprit.springbootamazons3.repository.PostViewRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
-
+package com.esprit.springbootamazons3.post;
 
 
 /*

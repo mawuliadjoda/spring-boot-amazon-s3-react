@@ -1,6 +1,6 @@
-package com.esprit.springbootamazons3.repository;
+package com.esprit.springbootamazons3.pharmacy;
 
-import com.esprit.springbootamazons3.record.PharmacyRecord;
+import com.esprit.springbootamazons3.pharmacy.PharmacyRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;

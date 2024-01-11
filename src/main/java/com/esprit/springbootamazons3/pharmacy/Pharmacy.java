@@ -1,4 +1,4 @@
-package com.esprit.springbootamazons3.entity;
+package com.esprit.springbootamazons3.pharmacy;
 
 import jakarta.persistence.*;
 import lombok.Data;
