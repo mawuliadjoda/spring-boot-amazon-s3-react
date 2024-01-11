@@ -1,41 +1,67 @@
 package com.esprit.springbootamazons3.post;
 
 
-/*
+import com.esprit.springbootamazons3.exception.MyCrudException;
+import com.esprit.springbootamazons3.exception.MyCrudExceptionEnum;
+import com.esprit.springbootamazons3.exception.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping(value = "/api/posts")
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequiredArgsConstructor
-
- */
 public class PostController {
 
-    /*
-    private PostRecordRepository postRecordRepository;
+    private PostRepository postRepository;
 
     @Autowired
-    public PostController(PostRecordRepository postRecordRepository) {
-        this.postRecordRepository = postRecordRepository;
+    public PostController(PostRepository postRepository) {
+        this.postRepository = postRepository;
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<Post>> getAll() {
+        return new ResponseEntity<>(postRepository.findAll(), HttpStatus.OK);
     }
 
 
-    @GetMapping("")
-    List<PostRecord> findAll() {
-        return postRecordRepository.findAll();
+    @PostMapping("")
+    public ResponseEntity<Post> add(@RequestBody Post post) {
+        return new ResponseEntity<>(postRepository.save(post), HttpStatus.CREATED);
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Post> update(@PathVariable String id, @RequestBody Post post) {
+        if (postRepository.existsById(id)) {
+            throw new MyCrudException(MyCrudExceptionEnum.PHARMACY_NOT_FOUND, "No solution founded with id {}");
+        }
+        return new ResponseEntity<>(postRepository.save(post), HttpStatus.OK);
+    }
+
 
     @GetMapping("/{id}")
-    Optional<PostRecord> findById(@PathVariable String id){
-        return Optional.ofNullable(postRecordRepository.findById(id)
-                .orElseThrow(PostNotFoundException::new));
+    Optional<Post> findById(@PathVariable String id){
+        return Optional.ofNullable(postRepository.findById(id)
+                .orElseThrow(NotFoundException::new));
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("")
-    PostRecord create(@RequestBody @Validated PostRecord postRecord) {
-        return postRecordRepository.save(postRecord);
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable String id) {
+        try {
+            postRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
+    /*
     @PutMapping("/{id}")
     PostRecord update(@PathVariable String id,@RequestBody @Validated PostRecord postRecord) {
         Optional<PostRecord> existing = postRecordRepository.findById(id);
@@ -61,12 +87,5 @@ public class PostController {
         }
 
     }
-
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
-    void delete(@PathVariable String id){
-        postRecordRepository.deleteById(id);
-    }
-
      */
 }
