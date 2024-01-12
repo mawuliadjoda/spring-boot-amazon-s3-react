@@ -19,9 +19,11 @@ CREATE TABLE IF NOT EXISTS post
     image_url character varying(255) COLLATE pg_catalog."default",
     image_url2 character varying(255) COLLATE pg_catalog."default",
     image_url3 character varying(255) COLLATE pg_catalog."default",
-    lat double precision NOT NULL,
-    lng double precision NOT NULL,
     location character varying(255) COLLATE pg_catalog."default",
     tags character varying(255) COLLATE pg_catalog."default",
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    user_id character varying(255) COLLATE pg_catalog."default",
+    user_tel character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT post_pkey PRIMARY KEY (post_id)
 );

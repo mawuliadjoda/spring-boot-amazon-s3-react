@@ -1,16 +1,24 @@
 package com.esprit.springbootamazons3.post;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+
+import java.util.List;
 
 
 @Entity
 @Table(name = "post")
-@Data
+
+@Builder
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Setter(value = AccessLevel.PACKAGE)
+@Getter
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String postId;
+    private String userId;
+    private String userTel;
     private String caption;
     private String imageId;
     private String imageId2;
@@ -19,8 +27,8 @@ public class Post {
     private String imageUrl2;
     private String imageUrl3;
     private String location;
-    private String tags;
-    private double lat;
-    private double lng;
+    private List<String> tags;
+    private double latitude;
+    private double longitude;
     private double distanceZero;
 }

@@ -18,10 +18,12 @@ import java.util.Optional;
 public class PostController {
 
     private PostRepository postRepository;
+    private PostMapper postMapper;
 
     @Autowired
-    public PostController(PostRepository postRepository) {
+    public PostController(PostRepository postRepository, PostMapper postMapper) {
         this.postRepository = postRepository;
+        this.postMapper = postMapper;
     }
 
     @GetMapping()
@@ -30,9 +32,9 @@ public class PostController {
     }
 
 
-    @PostMapping("")
-    public ResponseEntity<Post> add(@RequestBody Post post) {
-        return new ResponseEntity<>(postRepository.save(post), HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<Post> add(@RequestBody PostRecord postRecord) {
+        return new ResponseEntity<>(postRepository.save(postMapper.apply(postRecord)), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
