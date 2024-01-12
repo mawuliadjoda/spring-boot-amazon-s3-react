@@ -10,9 +10,9 @@ import java.util.List;
 @Table(name = "post")
 
 @Builder
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
-@Setter(value = AccessLevel.PACKAGE)
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
 @Getter
 public class Post {
     @Id
@@ -27,7 +27,7 @@ public class Post {
     private String imageUrl2;
     private String imageUrl3;
     private String location;
-    private List<String> tags;
+    private String tags;
     private double latitude;
     private double longitude;
     private double distanceZero;

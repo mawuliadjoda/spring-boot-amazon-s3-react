@@ -15,7 +15,7 @@ public record PostRecord(
         String imageUrl2,
         String imageUrl3,
         String location,
-        List<String> tags,
+        String tags,
         double latitude,
         double longitude,
         double distanceZero) {
