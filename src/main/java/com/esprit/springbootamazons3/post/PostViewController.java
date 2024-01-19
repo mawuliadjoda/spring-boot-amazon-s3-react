@@ -1,9 +1,11 @@
 package com.esprit.springbootamazons3.post;
 
 
-import com.esprit.springbootamazons3.post.PostViewRepository;
+import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/postView")
@@ -16,17 +18,22 @@ public class PostViewController {
         this.postViewRepository = postViewRepository;
     }
 
-    @PostMapping("/{userTel}/{userDistanceZero}/{lat}/{lng}")
+    @PostMapping("/{userTel}/{userDistanceZero}")
     void createPostView(
             @PathVariable String userTel,
-            @PathVariable double userDistanceZero,
-            @PathVariable double lat,
-            @PathVariable double lng) {
-        postViewRepository.createPostView(userTel, userDistanceZero, lat, lng);
+            @PathVariable double userDistanceZero) {
+        postViewRepository.createPostView(userTel, userDistanceZero);
     }
 
     @DeleteMapping("/{userTel}")
     void deletePostView(@PathVariable String userTel) {
         postViewRepository.deletePostView(userTel);
+    }
+
+    @GetMapping("/findNearByPost/{userTel}/{userDistanceZero}/{limit}")
+    List<Pair<String, Double>> findNearByPost(@PathVariable String userTel,
+                                               @PathVariable double userDistanceZero,
+                                               @PathVariable Integer limit) {
+        return postViewRepository.findNearByPost(userTel, userDistanceZero, limit);
     }
 }
