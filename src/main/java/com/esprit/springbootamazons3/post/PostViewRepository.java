@@ -41,7 +41,7 @@ public class PostViewRepository {
         jdbcClient.sql(sql.toString()).update();
     }
 
-    public void deletePostView(String userTel) {
+    public void dropPostView(String userTel) {
         String sql = new StringBuilder(" DROP VIEW ").append(buildViewName(userTel)).toString();
         jdbcClient.sql(sql).update();
     }
@@ -53,6 +53,15 @@ public class PostViewRepository {
     // https://java-online-training.de/?p=576
     public List<Pair<String, Double>> findNearByPost(String userTel, double userDistanceZero, Integer limit) {
 
+        createPostView(userTel, userDistanceZero);
+        String viewName= buildViewName(userTel);
+
+        String sql = new StringBuilder("SELECT post_id, distance_from FROM ")
+                .append(viewName)
+                .append(" order by distance_from asc limit(:limit) ")
+                // .append(limit)
+                .toString();
+        /*
         String sql = """
                 SELECT post_id, distance_from FROM
                 	(
@@ -62,7 +71,7 @@ public class PostViewRepository {
                 		
                 	) customPost  order by distance_from asc limit(:limit)
                 """;
-
+        */
         RowMapper<Pair<String, Double>> mapper = (ResultSet rs, int rowNum) ->
                 new Pair<String, Double>(
                         rs.getString("post_id"),
@@ -70,9 +79,11 @@ public class PostViewRepository {
                 );
 
         List<Pair<String, Double>> pairs = jdbcClient.sql(sql)
-                .param("userDistanceZero", userDistanceZero, Types.DOUBLE)
+                // .param("userDistanceZero", userDistanceZero, Types.DOUBLE)
                 .param("limit", limit, Types.INTEGER)
                 .query(mapper).list();
+
+        dropPostView(userTel);
 
         return pairs;
     }

@@ -27,7 +27,7 @@ public class PostViewController {
 
     @DeleteMapping("/{userTel}")
     void deletePostView(@PathVariable String userTel) {
-        postViewRepository.deletePostView(userTel);
+        postViewRepository.dropPostView(userTel);
     }
 
     @GetMapping("/findNearByPost/{userTel}/{userDistanceZero}/{limit}")
