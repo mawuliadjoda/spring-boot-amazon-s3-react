@@ -58,6 +58,7 @@ public class PostViewRepository {
 
         String sql = new StringBuilder("SELECT post_id, distance_from FROM ")
                 .append(viewName)
+                .append(" where user_tel != :userTel ")
                 .append(" order by distance_from asc limit(:limit) ")
                 // .append(limit)
                 .toString();
@@ -81,6 +82,7 @@ public class PostViewRepository {
         List<Pair<String, Double>> pairs = jdbcClient.sql(sql)
                 // .param("userDistanceZero", userDistanceZero, Types.DOUBLE)
                 .param("limit", limit, Types.INTEGER)
+                .param("userTel", userTel, Types.VARCHAR)
                 .query(mapper).list();
 
         dropPostView(userTel);
