@@ -32,13 +32,17 @@ public class PostViewRepository {
             String userTel,
             double userDistanceZero) {
 
+        String viewName= buildViewName(userTel);
+        String sql = new StringBuilder(" CREATE OR REPLACE VIEW ")
+                .append(viewName)
+                .append(" AS SELECT p.*, ")
+                .append(" abs(p.distance_zero - " + userDistanceZero + ") as distance_from ")
+                .append(" FROM  POST p ")
+                .append(" where user_tel != '"+ userTel +"'")
+                .toString();
 
-        StringBuilder sql = new StringBuilder(" CREATE OR REPLACE VIEW ").append(buildViewName(userTel));
-        sql.append(" AS SELECT p.*, ")
-                .append(" abs(p.distance_zero - " + userDistanceZero +") as distance_from ")
-                .append(" FROM  POST p");
-
-        jdbcClient.sql(sql.toString()).update();
+        jdbcClient.sql(sql)
+                .update();
     }
 
     public void dropPostView(String userTel) {
