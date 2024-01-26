@@ -38,11 +38,10 @@ public class PostViewRepository {
                 .append(" AS SELECT p.*, ")
                 .append(" abs(p.distance_zero - " + userDistanceZero + ") as distance_from ")
                 .append(" FROM  POST p ")
-                .append(" where user_tel != '"+ userTel +"'")
+                .append(" where user_tel != '" + userTel + "'")
                 .toString();
 
-        jdbcClient.sql(sql)
-                .update();
+        jdbcClient.sql(sql).update();
     }
 
     public void dropPostView(String userTel) {
