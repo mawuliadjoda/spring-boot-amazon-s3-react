@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.function.Function;
 
 @Service
-public class NearByPostService implements Function<NearByPostRecord, List<Pair<String, Double>>> {
+public class NearByPostService implements Function<NearByPostInputRecord, List<Pair<String, Double>>> {
     private PostViewRepository postViewRepository;
 
     @Autowired
@@ -17,19 +17,19 @@ public class NearByPostService implements Function<NearByPostRecord, List<Pair<S
     }
 
     @Override
-    public List<Pair<String, Double>> apply(NearByPostRecord nearByPostRecord) {
+    public List<Pair<String, Double>> apply(NearByPostInputRecord nearByPostInputRecord) {
 
         postViewRepository.createPostView(
-                nearByPostRecord.userTel(),
-                nearByPostRecord.userDistanceZero()
+                nearByPostInputRecord.userTel(),
+                nearByPostInputRecord.userDistanceZero()
         );
 
         List<Pair<String, Double>> nearByPost = postViewRepository.findNearByPost(
-                nearByPostRecord.userTel(),
-                nearByPostRecord.userDistanceZero(),
-                nearByPostRecord.limit()
+                nearByPostInputRecord.userTel(),
+                nearByPostInputRecord.userDistanceZero(),
+                nearByPostInputRecord.limit()
         );
-        postViewRepository.dropPostView(nearByPostRecord.userTel());
+        postViewRepository.dropPostView(nearByPostInputRecord.userTel());
         return nearByPost;
     }
 }

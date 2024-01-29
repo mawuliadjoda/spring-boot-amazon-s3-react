@@ -37,7 +37,7 @@ public class PostViewController {
     List<Pair<String, Double>> findNearByPost(@PathVariable String userTel,
                                                @PathVariable double userDistanceZero,
                                                @PathVariable Integer limit) {
-        Supplier<NearByPostRecord> nearByPostRecordSupplier = () -> new NearByPostRecord(userTel, userDistanceZero, limit);
-        return nearByPostService.apply(nearByPostRecordSupplier.get());
+        Supplier<NearByPostInputRecord> nearByPostInputRecordSupplier = () -> new NearByPostInputRecord(userTel, userDistanceZero, limit);
+        return nearByPostService.apply(nearByPostInputRecordSupplier.get());
     }
 }
