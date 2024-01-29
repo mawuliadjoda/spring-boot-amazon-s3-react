@@ -6,16 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 @RestController
 @RequestMapping(value = "/api/postView")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class PostViewController {
     private PostViewRepository postViewRepository;
+    private NearByPostService nearByPostService;
 
     @Autowired
-    public PostViewController(PostViewRepository postViewRepository) {
+    public PostViewController(PostViewRepository postViewRepository, NearByPostService nearByPostService) {
         this.postViewRepository = postViewRepository;
+        this.nearByPostService = nearByPostService;
     }
 
     @PostMapping("/{userTel}/{userDistanceZero}")
@@ -34,6 +37,7 @@ public class PostViewController {
     List<Pair<String, Double>> findNearByPost(@PathVariable String userTel,
                                                @PathVariable double userDistanceZero,
                                                @PathVariable Integer limit) {
-        return postViewRepository.findNearByPost(userTel, userDistanceZero, limit);
+        Supplier<NearByPostRecord> nearByPostRecordSupplier = () -> new NearByPostRecord(userTel, userDistanceZero, limit);
+        return nearByPostService.apply(nearByPostRecordSupplier.get());
     }
 }

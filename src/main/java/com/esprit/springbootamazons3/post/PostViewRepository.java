@@ -16,10 +16,12 @@ import java.util.List;
 public class PostViewRepository {
 
     private JdbcClient jdbcClient;
+    private PostViewNameBuilder postViewNameBuilder;
 
     @Autowired
-    public PostViewRepository(JdbcClient jdbcClient) {
+    public PostViewRepository(JdbcClient jdbcClient, PostViewNameBuilder postViewNameBuilder) {
         this.jdbcClient = jdbcClient;
+        this.postViewNameBuilder = postViewNameBuilder;
     }
 
 
@@ -32,7 +34,7 @@ public class PostViewRepository {
             String userTel,
             double userDistanceZero) {
 
-        String viewName= buildViewName(userTel);
+        String viewName= postViewNameBuilder.apply(userTel);
         String sql = new StringBuilder(" CREATE OR REPLACE VIEW ")
                 .append(viewName)
                 .append(" AS SELECT p.*, ")
@@ -45,19 +47,17 @@ public class PostViewRepository {
     }
 
     public void dropPostView(String userTel) {
-        String sql = new StringBuilder(" DROP VIEW ").append(buildViewName(userTel)).toString();
+
+        String viewName = postViewNameBuilder.apply(userTel);
+        String sql = new StringBuilder(" DROP VIEW ").append(viewName).toString();
         jdbcClient.sql(sql).update();
     }
 
-    private String buildViewName(String userTel) {
-        return new StringBuilder(" POST_VIEW").append(userTel).toString();
-    }
 
     // https://java-online-training.de/?p=576
     public List<Pair<String, Double>> findNearByPost(String userTel, double userDistanceZero, Integer limit) {
 
-        createPostView(userTel, userDistanceZero);
-        String viewName= buildViewName(userTel);
+        String viewName= postViewNameBuilder.apply(userTel);
 
         String sql = new StringBuilder("SELECT post_id, distance_from FROM ")
                 .append(viewName)
@@ -65,17 +65,7 @@ public class PostViewRepository {
                 .append(" order by distance_from asc limit(:limit) ")
                 // .append(limit)
                 .toString();
-        /*
-        String sql = """
-                SELECT post_id, distance_from FROM
-                	(
-                	   SELECT p.*,
-                       abs(p.distance_zero - :userDistanceZero) as distance_from
-                	   FROM  POST p
-                		
-                	) customPost  order by distance_from asc limit(:limit)
-                """;
-        */
+
         RowMapper<Pair<String, Double>> mapper = (ResultSet rs, int rowNum) ->
                 new Pair<String, Double>(
                         rs.getString("post_id"),
@@ -87,8 +77,6 @@ public class PostViewRepository {
                 .param("limit", limit, Types.INTEGER)
                 .param("userTel", userTel, Types.VARCHAR)
                 .query(mapper).list();
-
-        dropPostView(userTel);
 
         return pairs;
     }
